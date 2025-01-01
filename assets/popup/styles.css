@@ -1,0 +1,123 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+@font-face {
+    font-family: "Poppins";
+    src: url('fonts/Poppins/Poppins-Regular.ttf');
+}
+:root{
+    --bg-clr-1: #191919 ;
+    --bg-clr-2: #313131 ;
+    --bg-clr-3: #5a5a5a ;
+    --bg-clr-4: #53aff8 ;
+    --bg-clr-5: #e6f4fe ;
+}
+body{
+    font-family: "Poppins";
+    font-size: 1.1em;
+    color: white;
+    background-color: var(--bg-clr-1) ;
+    width: 350px;
+    height: 400px;
+    padding: .5em 1em;
+}
+.sl{
+    height: 1px;
+    width: 95%;
+    margin: .8em auto;
+    background-color: white;
+    border: none;
+}
+.sl-mini{
+    height: 1px;
+    width: 80%;
+    margin: .8em auto;
+    background-color: rgba(255, 255, 255, 0.692);
+}
+.toggle-btn{
+    width: 50px;
+    aspect-ratio: 2/1;
+}
+.toggle-btn input{
+    display: none;
+}
+.toggle-btn label{
+    display: block;
+    border: solid 1px rgb(148, 148, 148);
+    background-color: var(--bg-clr-3);
+    height: 100%;
+    width: 100%;
+    border-radius: .8em;
+}
+.toggle-btn .toggle{
+    width: 50%;
+    height: 100%;
+    background-color: var(--bg-clr-1);
+    border-radius: inherit;
+    transition: all .3s ease-out;
+}
+.toggle-btn input:checked + label{
+    background-color: var(--bg-clr-5);
+}
+.toggle-btn input:checked + label > .toggle{
+    margin-left: 50%;
+    background-color: var(--bg-clr-4);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav h1{
+    font-size: 1.4em;
+    font-weight: 500;
+}
+nav h1 span {
+    color: #FF0000;
+}
+nav .settings{
+    font-size: 1em;
+    cursor: pointer;
+    position: relative;
+    width: 36px;
+    aspect-ratio: 1/1;
+}
+nav .settings img{
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+}
+nav .settings:active img:last-child{
+    opacity: 0;
+}
+/* main */
+
+main section .section-title{
+    display: flex;
+    margin-bottom: .5em;
+}
+main section .section-title h2{
+    font-size: 1em;
+    font-weight: 200;
+}
+main section .section-title img{
+    width: 24px;
+    margin: 0 .5em;
+}
+main section .section-content ul{
+    list-style: none;
+}
+main section .section-content ul li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: capitalize;
+    background-color: var(--bg-clr-2);
+    padding: .3em .5em;
+    margin-bottom: .5em;
+    border-radius: .2em;
+}
