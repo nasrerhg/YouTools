@@ -1,0 +1,38 @@
+.metadata-container{
+    /* transform: translateY(-20%); */
+}
+#info-toggle-btn{
+    cursor: pointer;
+    background-color: rgba(36, 36, 36);
+    width: 36px;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 0;
+    opacity: .4;
+    transition: opacity .2s ease-out;
+    border-radius: 0 .3em .3em 0;
+}
+#info-toggle-btn:hover{
+    opacity: 1;
+}
+#info-toggle-btn img {
+    opacity: .5;
+    width: 100%;
+    transition: transform .4s ease-out;
+}
+#info-toggle-btn:hover img {
+    opacity: 1;
+}
+/* --- change direction of the icon arrow --- */
+.info-toggle-btn-show{
+    transform: rotateY(180deg)
+}
+/* --- hide the metapanel --- */
+#metapanel{
+    transition: all .3s ease-out;
+}
+.fade-aside{
+    transform: translateX(-100%);
+    opacity: 0;
+}
