@@ -5,8 +5,11 @@ import { featureManager } from "@modules/youtools_lib"
 // ---------------------- importing features -----------------------//
 // clearscreen 
 import clearScreen from "@content_scripts/js/clear_screen"
+import rotation from "@content_scripts/js/rotation"
+import loop from "@content_scripts/js/loop"
+import controls from "@content_scripts/js/controls"
 // add the imported features to feature manager
-featureManager.addfeatures({ clearScreen })
+featureManager.addfeatures({ rotation, clearScreen, controls, loop })
 
 
 function currentHref() {
