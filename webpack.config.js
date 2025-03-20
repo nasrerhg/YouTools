@@ -1,5 +1,6 @@
 const path = require("path")
 const copyWebpackPlugin = require("copy-webpack-plugin")
+
 module.exports = {
     watch: true,
     resolve: {
@@ -19,17 +20,20 @@ module.exports = {
     },
     plugins: [
         new copyWebpackPlugin({
+            // debug: true,
             patterns: [
                 {
                     from: "./src",
                     to: ".",
                     globOptions: {
                         ignore: [
-                            "**/modules"
+                            path.resolve(__dirname, "src/modules"),
+                            path.resolve(__dirname, "src/content_scripts/js/*.js"),
                         ]
                     }
                 }
+
             ]
         })
-    ],
+    ]
 } 
