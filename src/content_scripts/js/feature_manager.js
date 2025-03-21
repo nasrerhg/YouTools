@@ -1,23 +1,18 @@
 console.log("scripts manager state : active");
 
-import { featureManager } from "@modules/youtools_lib"
+import { featureManager, shortScrolled, currentHref, firstSubdirExtractor, firstSubDirMutation } from "@modules/youtools_lib"
+import { applyGetElement } from "@modules/dom_lib.js"
 
 // ---------------------- importing features -----------------------//
-// clearscreen 
+// features modules 
 import clearScreen from "@content_scripts/js/clear_screen"
 import rotation from "@content_scripts/js/rotation"
 import loop from "@content_scripts/js/loop"
 import controls from "@content_scripts/js/controls"
-// add the imported features to feature manager
+// add the imported features functions to feature manager registery
+console.log("[ feature manager module ] => adding features functions to the registery...");
 featureManager.addfeatures({ rotation, clearScreen, controls, loop })
 
-
-function currentHref() {
-    return window.location.href
-}
-function firstSubdirExtractor(url) {
-    return new URL(url).pathname.slice("1").split("/")[0]
-}
 // implement the classification (userConfig)
 function implementClassification(featuresClassification) {
     for (const featureName of featuresClassification.disable) {
@@ -26,17 +21,6 @@ function implementClassification(featuresClassification) {
     for (const featureName of featuresClassification.enable) {
         featureManager.changeState(featureName).enable()
     }
-}
-// URL mutations (not page full reloads)
-function URLMutaion(callback) {
-    let previousUrl = currentHref();
-    let mutationObserver = new MutationObserver((mutations) => {
-        if (previousUrl !== currentHref()) {
-            callback(currentHref())
-            previousUrl = currentHref()
-        }
-    })
-    mutationObserver.observe(document, { childList: true, subtree: true })
 }
 // identifying the feature group name from the URL subdir
 function featureGroupNameIdentifier(firstSubdir) {
@@ -103,16 +87,6 @@ function initialFirstSubdir(postTriggerProcessCB) {
     let firstSubdir = firstSubdirExtractor(currentHref())
     postTriggerProcessCB(firstSubdir)
 }
-// triggers when there is mutation in the first sub-directory
-function firstSubDirMutation(callback) {
-    let previousFirstSubDir = firstSubdirExtractor(currentHref())
-    URLMutaion((newURL) => {
-        if (firstSubdirExtractor(currentHref()) !== previousFirstSubDir) {
-            callback(firstSubdirExtractor(currentHref()))
-            previousFirstSubDir = firstSubdirExtractor(currentHref())
-        }
-    })
-}
 // triggers on local storage changes
 function userConfigChanges(callback) {
     chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -120,33 +94,64 @@ function userConfigChanges(callback) {
     })
 }
 
-
 async function postTriggerProcess(firstSubdir) {
     // check if the subdir is compatible with any feature
     if (firstSubdir !== "shorts" && firstSubdir !== "watch") {
         console.log("current page is not compatible with any features");
         return
     }
+    console.log(">>> start postTriggerProcess");
+    console.log(">>> addYouloolsActionBar");
 
+    let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
+    addYouloolsActionBar(videoRenderer)
+    shortScrolled((videoRenderer) => {
+        addYouloolsActionBar(videoRenderer)
+    })
     let featuresClassification = await featureClassification(firstSubdir)
+    console.log("[ feature manager module ] => implementing the classification");
+    console.log("featureClassification : ", featuresClassification);
 
     implementClassification(featuresClassification)
+    console.log(">>> end postTriggerProcess");
 }
 
 
 
 //------------------------ execution area -----------------------------------------//
+applyGetElement()
+
+//------------------------ creating Youtools features action bar ----------------------//
+async function addYouloolsActionBar(videoRenderer) {
+    if (videoRenderer.querySelector("#youtools-action-bar")) {
+        console.log("youTools action bar already created");
+        return
+    }
+    // creating the action bar element
+    let youtoolsActionBar = document.createElement("div")
+    youtoolsActionBar.setAttribute("id", "youtools-action-bar")
+
+    let playerOverlayRenderer = await videoRenderer.getElement("ytd-reel-player-overlay-renderer")
+    playerOverlayRenderer.append(youtoolsActionBar)
+}
+
+
+//------------------------ applying the appropriate features ----------------------//
+
 function changesDetector(postTriggerProcessCB) {
     // detect initial URL
     initialFirstSubdir(async (firstSubdir) => {
+        console.log(">>> initialFirstSubdir");
         postTriggerProcessCB(firstSubdir)
     })
     // detect first subdirectory mutations
     firstSubDirMutation(async (firstSubdir) => {
+        console.log(">>> firstSubDirMutation");
         postTriggerProcessCB(firstSubdir)
     })
     // detect user config changes
     userConfigChanges(async () => {
+        console.log(">>> userConfig change");
         let firstSubdir = firstSubdirExtractor(currentHref())
         postTriggerProcessCB(firstSubdir)
     })
