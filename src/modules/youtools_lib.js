@@ -125,3 +125,19 @@ export function firstSubDirMutation(callback) {
         }
     })
 }
+// initial short video
+export async function initialShortVideo(callback) {
+    // detects any short videos right after the full load of the page
+    let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
+    console.log("new short video page detected (full load)");
+    callback(videoRenderer)
+    // detects any short videos after a short videos page mutation
+    firstSubDirMutation(async (firstSubdir) => {
+        if (firstSubdir !== "shorts") {
+            return
+        }
+        let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
+        console.log("new short video page detected (mutation)");
+        callback(videoRenderer)
+    })
+}
