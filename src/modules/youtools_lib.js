@@ -15,7 +15,6 @@ export const featureManager = {
                 console.log(`${featureName}'s disable function is not available the functions object from the module !`);
                 continue
             }
-
             // add it to the regitery
             this.registery[featureName] = {
                 featureState: "disabled",
@@ -59,4 +58,16 @@ export const featureManager = {
             }
         }
     }
+}
+// detects when a short feed was scrolled 
+export function shortScrolled(callback) {
+    let mutationObserver = new MutationObserver((mutations) => {
+        mutations.forEach(mutation => {
+            if (mutation.target.nodeName === "YTD-REEL-VIDEO-RENDERER" && mutation.target.getAttribute("is-active") !== null) {
+                callback(mutation.target)
+            }
+        });
+    })
+    mutationObserver.observe(document, { subtree: true, attributes: true, attributeFilter: ["is-active"] })
+    return mutationObserver
 }
