@@ -71,3 +71,31 @@ export function shortScrolled(callback) {
     mutationObserver.observe(document, { subtree: true, attributes: true, attributeFilter: ["is-active"] })
     return mutationObserver
 }
+// adds features buttons to the youtools action bar
+export async function addFeatureBtn(videoRenderer, btnElement, featureTitle) {
+    console.log("btn Element : ", btnElement);
+    let youtoolsActionBar = await videoRenderer.getElement("#youtools-action-bar")
+    if (youtoolsActionBar.querySelector(`#${btnElement.id}`)) {
+        console.log("btn already added");
+        return
+    }
+    let btnWrapper = document.createElement("div")
+    btnWrapper.classList.add("btn-wrapper")
+    let btnContainer = document.createElement("div")
+    btnContainer.classList.add("btn-container")
+    let title = document.createElement("div")
+    title.classList.add("btn-title")
+    title.textContent = featureTitle
+    btnContainer.append(btnElement)
+    btnWrapper.append(btnContainer)
+    btnWrapper.append(title)
+
+    youtoolsActionBar.append(btnWrapper)
+}
+export function removeFeatureBtn(videoRenderer, btnElementIdentifier) {
+    console.log("removeFeatureBtn-------");
+    console.log("the btn : ", videoRenderer.querySelector(btnElementIdentifier));
+    console.log("the parent : ", videoRenderer.querySelector(btnElementIdentifier).parentElement);
+    videoRenderer.querySelector(btnElementIdentifier).closest(".btn-wrapper").remove()
+}
+
