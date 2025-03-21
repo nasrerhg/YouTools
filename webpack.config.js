@@ -19,7 +19,7 @@ module.exports = {
         clean: true
     },
     plugins: [
-        new copyWebpackPlugin({    
+        new copyWebpackPlugin({
             patterns: [
                 {
                     from: "./src",
