@@ -99,3 +99,29 @@ export function removeFeatureBtn(videoRenderer, btnElementIdentifier) {
     videoRenderer.querySelector(btnElementIdentifier).closest(".btn-wrapper").remove()
 }
 
+// --------------------------------------------
+export function currentHref() {
+    return window.location.href
+}
+export function URLMutaion(callback) {
+    let previousUrl = currentHref();
+    let mutationObserver = new MutationObserver((mutations) => {
+        if (previousUrl !== currentHref()) {
+            callback(currentHref())
+            previousUrl = currentHref()
+        }
+    })
+    mutationObserver.observe(document, { childList: true, subtree: true })
+}
+export function firstSubdirExtractor(url) {
+    return new URL(url).pathname.slice("1").split("/")[0]
+}
+export function firstSubDirMutation(callback) {
+    let previousFirstSubDir = firstSubdirExtractor(currentHref())
+    URLMutaion((newURL) => {
+        if (firstSubdirExtractor(currentHref()) !== previousFirstSubDir) {
+            callback(firstSubdirExtractor(currentHref()))
+            previousFirstSubDir = firstSubdirExtractor(currentHref())
+        }
+    })
+}
