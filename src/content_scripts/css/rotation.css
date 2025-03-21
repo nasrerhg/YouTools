@@ -1,0 +1,207 @@
+:root {
+    --player-width: 850px;
+    --player-height: 400px;
+    --video-left-position: 0;
+    --action-elements-right-margin: 2rem;
+    --contained-video-height: 100%;
+    --contained-video-width: auto;
+}
+
+ytd-reel-video-renderer {
+    margin-inline: auto !important;
+    /* border: solid 3px red; */
+}
+
+#shorts-inner-container {
+    width: 100%;
+    padding-right: 100px;
+    /* border: solid 2px violet; */
+}
+
+@media (max-width: 840px) {
+    #shorts-inner-container {
+        padding-right: 0;
+    }
+}
+
+.landscape {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    /* border: solid 3px blue; */
+}
+
+.landscape .player-wrapper {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2/1;
+    max-width: 954px;
+    margin-inline: auto;
+    position: relative;
+    /* border: solid 3px red; */
+}
+
+.landscape .player-wrapper #shorts-player .html5-video-container {
+    position: unset;
+    display: flex;
+    width: 100%;
+    aspect-ratio: 1/1;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    /* border: solid 3px white; */
+}
+
+.left-rotation .player-wrapper #shorts-player .html5-video-container {
+    transform: rotate(-90deg) translateX(25%);
+}
+
+.right-rotation .player-wrapper #shorts-player .html5-video-container {
+    transform: rotate(90deg) translateX(-25%);
+}
+
+.landscape .player-wrapper video {
+    position: unset;
+    object-fit: contain;
+    width: var(--contained-video-width) !important;
+    height: var(--contained-video-height) !important;
+    /* max-height: 477px; */
+    /* border: solid 3px yellow; */
+}
+
+.landscape .player-wrapper .player-controls {
+    width: 100%;
+}
+
+.landscape .player-wrapper .player-controls desktop-shorts-volume-controls {
+    max-width: 250px;
+}
+
+.landscape .player-wrapper .player-controls #fullscreen-button-shape {
+    justify-content: flex-end;
+}
+
+
+.landscape .player-wrapper #scrubber {
+    width: 100%;
+    bottom: auto;
+}
+
+.landscape #experiment-overlay {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    max-width: 954px;
+    margin-inline: auto;
+    /* border: solid 3px green; */
+}
+
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer {
+    width: 100%;
+    /* border: solid 3px white; */
+}
+
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container {
+    width: 100%;
+    top: 100%;
+    position: absolute;
+    /* border: solid 3px violet; */
+}
+
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: self-start;
+    width: max-content;
+    padding: 1rem 0;
+    margin-inline: auto;
+    /* border: solid 3px pink; */
+}
+
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions>div,
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions ytd-toggle-button-renderer {
+    margin-right: var(--action-elements-right-margin);
+}
+
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions ytd-button-renderer,
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions ytd-menu-renderer,
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions pivot-button-view-model,
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions ytd-toggle-button-renderer,
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions ytd-like-button-renderer {
+    padding: 0;
+}
+
+.landscape #experiment-overlay ytd-reel-player-overlay-renderer .action-container #actions ytd-like-button-renderer {
+    display: flex;
+    flex-direction: row;
+}
+
+/* --- rotation btn ---- */
+
+#youtools-action-bar #rotation-layers-wrapper {
+    /* border: solid 1px blue; */
+    width: 100%;
+    height: 100%;
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+    transition: width .1s ease-out;
+    background-color: transparent;
+    outline: solid 0px var(--youtools-btns-bg-container-color);
+    border-radius: 1rem;
+}
+
+#youtools-action-bar #rotation-layers-wrapper:hover {
+    background-color: var(--youtools-btns-bg-container-color);
+    outline: solid 3px var(--youtools-btns-bg-container-color);
+    width: 310%;
+
+}
+
+#youtools-action-bar #rotation-layers-wrapper:hover #left-rotation {
+    transform: translateX(-105%) rotate(-90deg);
+}
+
+#youtools-action-bar #rotation-layers-wrapper:hover #right-rotation {
+    transform: translateX(105%) rotate(90deg);
+}
+
+#youtools-action-bar #rotation-layers-wrapper>div {
+    /* border: solid 1px blue; */
+    height: 100%;
+    background-color: var(--youtools-btns-bg-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    cursor: pointer;
+    transition: transform .2s ease-out, background-color .1s ease-out;
+}
+
+#youtools-action-bar #rotation-layers-wrapper>div:hover {
+    background-color: var(--youtools-btns-bg-hover-color);
+}
+
+#youtools-action-bar #rotation-layers-wrapper>div:active {
+    background-color: var(--youtools-btns-bg-active-color);
+}
+
+#youtools-action-bar #rotation-layers-wrapper img {
+    width: 60%;
+}
+
+#youtools-action-bar #rotation-layers-wrapper #show-options {
+    transition: transform .3s ease-out .3s;
+}
+
+.left-rotation #youtools-action-bar #rotation-layers-wrapper #show-options,
+.right-rotation #youtools-action-bar #rotation-layers-wrapper #show-options {
+    transform: rotate(-90deg);
+}
