@@ -209,3 +209,11 @@ ytd-reel-video-renderer {
 .right-rotation #youtools-action-bar #rotation-layers-wrapper #show-options {
     transform: rotate(-90deg);
 }
+
+.left-rotation #youtools-action-bar #rotation-layers-wrapper #left-rotation {
+    background-color: var(--youtools-btns-bg-active-color);
+}
+
+.right-rotation #youtools-action-bar #rotation-layers-wrapper #right-rotation {
+    background-color: var(--youtools-btns-bg-active-color);
+}
