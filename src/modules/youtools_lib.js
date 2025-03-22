@@ -81,6 +81,7 @@ export async function addFeatureBtn(videoRenderer, btnElement, featureTitle) {
     }
     let btnWrapper = document.createElement("div")
     btnWrapper.classList.add("btn-wrapper")
+    btnWrapper.id = `bw-${btnElement.id}`
     let btnContainer = document.createElement("div")
     btnContainer.classList.add("btn-container")
     let title = document.createElement("div")

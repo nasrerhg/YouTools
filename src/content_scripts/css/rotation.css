@@ -144,6 +144,10 @@ ytd-reel-video-renderer {
 
 /* --- rotation btn ---- */
 
+#youtools-action-bar #bw-rotation-layers-wrapper .btn-container {
+    z-index: 999;
+}
+
 #youtools-action-bar #rotation-layers-wrapper {
     /* border: solid 1px blue; */
     width: 100%;
