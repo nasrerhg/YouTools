@@ -80,7 +80,16 @@ async function featureClassification(firstSubdir) {
         disable: disableFeatures
     }
 }
+async function disableAllfeatures() {
+    let response = await getLocalStorage("userConfig")
+    let userConfig = response.userConfig
+    let featuersOnlyList = { ...userConfig.shorts, ...userConfig.videos }
+    let featuresNames = Object.keys(featuersOnlyList)
 
+    featuresNames.forEach((featureName) => {
+        featureManager.changeState(featureName).disable()
+    })
+}
 
 // initial page loading
 function initialFirstSubdir(postTriggerProcessCB) {
@@ -98,6 +107,7 @@ async function postTriggerProcess(firstSubdir) {
     // check if the subdir is compatible with any feature
     if (firstSubdir !== "shorts" && firstSubdir !== "watch") {
         console.log("current page is not compatible with any features");
+        disableAllfeatures()
         return
     }
     console.log(">>> start postTriggerProcess");
