@@ -32,3 +32,91 @@ export function applyGetElement() {
 
         }
 }
+export function clicksManager(element) {
+    let waitingForConsecutiveClick = false
+    let justDoubleClicked = false
+    let longMouseDownStarted = false
+    let justLongClicked = false
+
+    let singleClickTimeout
+    let longMouseDownTimeout
+
+    let singleClickCallback
+    let doubleClickCallback
+    let longMouseDownStartCallback
+    let longMouseDownEndCallback
+
+    function doubleClick(callback, event) {
+        if (waitingForConsecutiveClick) {
+            clearTimeout(singleClickTimeout)
+            waitingForConsecutiveClick = false
+            justDoubleClicked = true
+            // console.log("double click !!");
+            callback?.(event)
+        }
+    }
+
+    function singleClick(callback, event) {
+        if (justDoubleClicked) {
+            justDoubleClicked = false
+            return
+        }
+        if (justLongClicked) {
+            justLongClicked = false
+            return
+        }
+        waitingForConsecutiveClick = true
+        singleClickTimeout = setTimeout(() => {
+            // console.log("click !");
+            waitingForConsecutiveClick = false
+            callback?.(event)
+        }, 400);
+    }
+
+    function longMouseDownStart(callback, event) {
+        longMouseDownTimeout =
+            setTimeout(() => {
+                longMouseDownStarted = true
+                justLongClicked = true
+                // console.log("long press started");
+                callback?.(event)
+            }, 500);
+    }
+    function longMouseDownEnd(callback, event) {
+        clearTimeout(longMouseDownTimeout)
+        if (longMouseDownStarted) {
+            longMouseDownStarted = false
+            callback?.(event)
+        }
+    }
+
+    element.addEventListener("mousedown", (event) => {
+        longMouseDownStart(longMouseDownStartCallback, event)
+    })
+    element.addEventListener("mouseup", (event) => {
+        longMouseDownEnd(longMouseDownEndCallback, event)
+    })
+    element.addEventListener("mouseleave", (event) => {
+        longMouseDownEnd(longMouseDownEndCallback, event)
+    })
+    element.addEventListener("click", (event) => {
+        doubleClick(doubleClickCallback, event)
+        singleClick(singleClickCallback, event)
+    })
+
+    return {
+        onSingleClick: (callback) => {
+            singleClickCallback = callback
+        },
+        onDoubleClick: (callback) => {
+            doubleClickCallback = callback
+        },
+        onLongMouseDownStart: (callback) => {
+            longMouseDownStartCallback = callback
+        },
+        onLongMouseDownEnd: (callback) => {
+            longMouseDownEndCallback = callback
+        }
+    }
+
+}

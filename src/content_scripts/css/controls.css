@@ -1,0 +1,272 @@
+ytd-reel-video-renderer #controls-layer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* background-color: gray; */
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+
+ytd-reel-video-renderer #controls-layer>* {
+    pointer-events: none;
+}
+ytd-reel-video-renderer .player-controls.ytd-reel-video-renderer {
+    z-index: 2 !important;
+}
+
+ytd-reel-video-renderer #controls-layer #controls-layer-content {
+    width: 100%;
+    height: 100%;
+    /* background-color: blue; */
+    display: grid; 
+    grid-template-columns: repeat(3, 33.33%);
+    grid-template-rows: 40% 20% 40%;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+ytd-reel-video-renderer #controls-layer #controls-layer-content #upper-area-animations-container {
+    width: 100%;
+    height: 50%;
+    border: solid 3px red;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    display: none;
+}
+
+ytd-reel-video-renderer #controls-layer #controls-layer-content #center-area-animations-container {
+    width: 100%;
+    height: 100%;
+    border: solid 3px blue;
+    grid-column: 1/4;
+    grid-row: 2/3;
+    display: none;
+}
+
+#experiment-overlay {
+    z-index: 1;
+}
+
+/*---- play & pause -----*/
+#play-pause-container {
+    /* border: solid white 2px; */
+    width: 100px;
+    height: 100px;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    justify-self: center;
+    /* position: absolute; */
+}
+
+#play-pause-content {
+    /* border: solid blueviolet 2px; */
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#play-pause-content img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    visibility: hidden;
+}
+
+.play #play-img {
+    visibility: visible;
+    transform: scale(1.5);
+    opacity: 0;
+    transition: transform .5s ease-out,
+        opacity .4s .3s ease-out;
+}
+
+.pause #pause-img {
+    visibility: visible;
+    transform: scale(1.5);
+    opacity: 0;
+    transition: transform .5s ease-out,
+        opacity .4s .3s ease-out;
+}
+
+/* --- skip generals --- */
+.skip-container {
+    /* border: solid white 2px; */
+    width: 100%;
+    max-width: 150px;
+    visibility: hidden;
+    align-self: flex-start;
+    justify-self: center;
+}
+
+.skip-container-content {
+    /* border: solid blueviolet 2px; */
+    width: 100%;
+    height: 100%;
+}
+
+.skip-container-content .skip-img-container {
+    /* border: solid blueviolet 2px; */
+    width: 100%;
+    aspect-ratio: 2/1;
+    position: relative;
+}
+
+.skip-container-content .skip-img-container img {
+    height: 100%;
+    position: absolute;
+    visibility: hidden;
+
+}
+
+.skip-container-content .skip-time-amount {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+:root {
+    --animation-duration: .6s;
+}
+
+
+
+/* --- skip direction specific --- */
+/* --- skip forward --- */
+#skip-forward-container {
+    grid-column: 3/4;
+    grid-row: 2/3;
+}
+
+.skip-forward #skip-forward-container {
+    visibility: visible;
+}
+
+.skip-forward #skip-forward-container .skip-img-container img {
+    visibility: visible;
+    opacity: 0;
+    animation: skipping-animation var(--animation-duration) ease-out 1 normal;
+}
+
+#skip-forward-container .skip-img-container img:nth-child(1) {
+    animation-duration: 3;
+    animation-delay: calc(calc(var(--animation-duration) / 3) *0);
+    left: 0%;
+}
+
+#skip-forward-container .skip-img-container img:nth-child(2) {
+    left: 20%;
+    animation-delay: calc(calc(var(--animation-duration) / 3) *1);
+    /* animation-delay: calc(calc(var(--animation-duration) / 100) * 80); */
+}
+
+#skip-forward-container .skip-img-container img:nth-child(3) {
+    left: 40%;
+    /* animation-delay: calc(calc(var(--animation-duration) / 100) * 160); */
+    animation-delay: calc(calc(var(--animation-duration) / 3) *2);
+}
+
+
+/* --- skip backwards --- */
+#skip-backward-container {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.skip-backward #skip-backward-container {
+    visibility: visible;
+}
+
+.skip-backward #skip-backward-container .skip-img-container img {
+    visibility: visible;
+    opacity: 0;
+    animation: skipping-animation var(--animation-duration) ease-out 1 normal;
+}
+
+#skip-backward-container .skip-img-container img:nth-child(1) {
+    left: 0%;
+    animation-delay: calc(calc(var(--animation-duration) / 3) *2);
+}
+
+#skip-backward-container .skip-img-container img:nth-child(2) {
+    left: 20%;
+    animation-delay: calc(calc(var(--animation-duration) / 3) *1);
+    /* animation-delay: calc(calc(var(--animation-duration) / 100) * 80); */
+}
+
+#skip-backward-container .skip-img-container img:nth-child(3) {
+    left: 40%;
+    /* animation-delay: calc(calc(var(--animation-duration) / 100) * 160); */
+    animation-delay: calc(calc(var(--animation-duration) / 3) *0);
+}
+
+@keyframes skipping-animation {
+    0% {
+        opacity: .3;
+    }
+
+    33% {
+        opacity: 1;
+    }
+
+    66% {
+        opacity: .3;
+    }
+}
+
+/* --- fast forward --- */
+#fast-forward-container {
+    display: flex;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    justify-self: center;
+    align-self: center;
+    background-color: #0f0f0fdb;
+    padding: .5rem;
+    border-radius: 1.5rem;
+    visibility: hidden;
+}
+
+#fast-forward-container #fast-forward-rate {
+    color: white;
+    font-size: 24px;
+    padding: .25rem;
+}
+
+#fast-forward-container .fast-forward-img-container {
+    position: relative;
+    width: 80px;
+    aspect-ratio: 2/1;
+    visibility: visible;
+}
+
+#fast-forward-container .fast-forward-img-container img {
+    opacity: 0;
+    position: absolute;
+    height: 100%;
+}
+
+#fast-forward-container .fast-forward-img-container img:nth-child(1) {
+    animation-delay: calc(calc(var(--animation-duration) / 3) *0) !important;
+    left: 0%;
+}
+
+#fast-forward-container .fast-forward-img-container img:nth-child(2) {
+    left: 20%;
+    animation-delay: calc(calc(var(--animation-duration) / 3) *1) !important;
+    /* animation-delay: calc(calc(var(--animation-duration) / 100) * 80); */
+}
+
+#fast-forward-container .fast-forward-img-container img:nth-child(3) {
+    left: 40%;
+    /* animation-delay: calc(calc(var(--animation-duration) / 100) * 160); */
+    animation-delay: calc(calc(var(--animation-duration) / 3) *2) !important;
+}
+
+.fast-forward #fast-forward-container {
+    visibility: visible;
+}
+
+.fast-forward #fast-forward-container .fast-forward-img-container img {
+    animation: skipping-animation var(--animation-duration) ease-out 1 normal;
+}

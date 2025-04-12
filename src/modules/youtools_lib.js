@@ -60,16 +60,23 @@ export const featureManager = {
     }
 }
 // detects when a short feed was scrolled 
-export function shortScrolled(callback) {
-    let mutationObserver = new MutationObserver((mutations) => {
-        mutations.forEach(mutation => {
-            if (mutation.target.nodeName === "YTD-REEL-VIDEO-RENDERER" && mutation.target.getAttribute("is-active") !== null) {
-                callback(mutation.target)
-            }
-        });
-    })
-    mutationObserver.observe(document, { subtree: true, attributes: true, attributeFilter: ["is-active"] })
-    return mutationObserver
+export function createShortScrolledEvent() {
+    let mutationObserver
+    return {
+        start: (callback) => {
+            mutationObserver = new MutationObserver((mutations) => {
+                mutations.forEach(mutation => {
+                    if (mutation.target.nodeName === "YTD-REEL-VIDEO-RENDERER" && mutation.target.getAttribute("is-active") !== null) {
+                        callback(mutation.target)
+                    }
+                });
+            })
+            mutationObserver.observe(document, { subtree: true, attributes: true, attributeFilter: ["is-active"] })
+        },
+        end: () => {
+            mutationObserver?.disconnect()
+        }
+    }
 }
 // adds features buttons to the youtools action bar
 export async function addFeatureBtn(videoRenderer, btnElement, featureTitle) {

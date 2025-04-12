@@ -29,6 +29,7 @@
             "css": [
                 "/content_scripts/css/clear_screen.css",
                 "/content_scripts/css/rotation.css",
+                "/content_scripts/css/controls.css",
                 "/content_scripts/css/feature_manager.css"
             ]
         }

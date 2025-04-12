@@ -1,6 +1,6 @@
 console.log("scripts manager state : active");
 
-import { featureManager, shortScrolled, currentHref, firstSubdirExtractor, firstSubDirMutation } from "@modules/youtools_lib"
+import { featureManager, createShortScrolledEvent, currentHref, firstSubdirExtractor, firstSubDirMutation } from "@modules/youtools_lib"
 import { applyGetElement } from "@modules/dom_lib.js"
 
 // ---------------------- importing features -----------------------//
@@ -104,6 +104,7 @@ function userConfigChanges(callback) {
 }
 
 async function postTriggerProcess(firstSubdir) {
+    shortScrolled.end()
     // check if the subdir is compatible with any feature
     if (firstSubdir !== "shorts" && firstSubdir !== "watch") {
         console.log("current page is not compatible with any features");
@@ -115,7 +116,7 @@ async function postTriggerProcess(firstSubdir) {
 
     let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
     addYouloolsActionBar(videoRenderer)
-    shortScrolled((videoRenderer) => {
+    shortScrolled.start((videoRenderer) => {
         addYouloolsActionBar(videoRenderer)
     })
     let featuresClassification = await featureClassification(firstSubdir)
@@ -167,4 +168,5 @@ function changesDetector(postTriggerProcessCB) {
     })
 }
 
+let shortScrolled = createShortScrolledEvent()
 changesDetector(postTriggerProcess)

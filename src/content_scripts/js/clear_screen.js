@@ -5,7 +5,7 @@ console.log("clear screen script on stand by...")
 
 import { getResourceURL } from "@modules/extension_general_lib.js"
 import { applyGetElement } from "@modules/dom_lib.js"
-import { shortScrolled, initialShortVideo, addFeatureBtn, removeFeatureBtn } from "@modules/youtools_lib.js"
+import { createShortScrolledEvent, initialShortVideo, addFeatureBtn, removeFeatureBtn } from "@modules/youtools_lib.js"
 
 applyGetElement()
 
@@ -42,7 +42,8 @@ function addClearScreenBtnToActionBar(videoRenderer) {
     })
     addFeatureBtn(videoRenderer, clearScreenBtn, "clear screen")
 }
-let eventsDispatchers = undefined;
+
+let shortScrolled = createShortScrolledEvent();
 
 function enableClearScreen() {
     initialShortVideo((videoRenderer) => {
@@ -50,21 +51,16 @@ function enableClearScreen() {
         hideMetapanel(videoRenderer)
 
     })
-    eventsDispatchers =
-        shortScrolled((videoRenderer) => {
-            addClearScreenBtnToActionBar(videoRenderer)
-            hideMetapanel(videoRenderer)
-        })
+    shortScrolled.start((videoRenderer) => {
+        addClearScreenBtnToActionBar(videoRenderer)
+        hideMetapanel(videoRenderer)
+    })
 
     console.log("clear screen script activated");
 }
 
 function disableClearScreen() {
-    if (eventsDispatchers === undefined) {
-        console.log("clear screen already deactivated");
-        return
-    }
-    eventsDispatchers.disconnect()
+    shortScrolled.end()
     document.getElement("ytd-reel-video-renderer[is-active]", (videoRenderer) => {
         removeFeatureBtn(videoRenderer, "#info-toggle-btn")
         showMetapanel(videoRenderer)
