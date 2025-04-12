@@ -1,6 +1,6 @@
 import { getResourceURL } from "@modules/extension_general_lib.js"
 import { applyGetElement } from "@modules/dom_lib.js"
-import { addFeatureBtn, removeFeatureBtn, shortScrolled, initialShortVideo } from "@modules/youtools_lib.js"
+import { addFeatureBtn, removeFeatureBtn, createShortScrolledEvent, initialShortVideo } from "@modules/youtools_lib.js"
 
 
 applyGetElement()
@@ -127,7 +127,7 @@ function removeLandscape(videoRenderer) {
     videoRenderer.classList.remove("right-rotation")
     videoRenderer.classList.remove("landscape")
 }
-
+let shortScrolled = createShortScrolledEvent()
 export default {
     enableRotation: async () => {
         console.log("rotation :: script activated");
@@ -136,13 +136,14 @@ export default {
             onResizeContaineShortVideo(videoRenderer)
         })
 
-        shortScrolled((videoRenderer) => {
+        shortScrolled.start((videoRenderer) => {
             addClearScreenBtnToActionBar(videoRenderer)
             onResizeContaineShortVideo(videoRenderer)
         })
 
     },
     disableRotation: async () => {
+        shortScrolled.end()
         console.log("rotation :: script deactivated");
         let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
         removeLandscape(videoRenderer)
