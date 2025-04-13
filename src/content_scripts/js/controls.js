@@ -249,7 +249,7 @@ async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
         videoFastForwardAnimation.end()
     })
 
-    document.addEventListener("keyup", (event) => {
+    document.onkeyup = (event) => {
         let keyCode = event.code
         if (keyCode === "ArrowLeft") {
             videoSkipBackward(video, videoSkipBackwardTimeAmount)
@@ -259,7 +259,7 @@ async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
             videoSkipForward(video, videoSkipForwardTimeAmount)
             videoSkipForwardAnimation(controlsLayer, videoSkipForwardTimeAmount)
         }
-    })
+    }
 
 }
 function implementControlsVideoRenderer(videoRenderer) {
