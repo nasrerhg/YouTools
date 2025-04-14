@@ -127,12 +127,6 @@ async function postTriggerProcess(firstSubdir) {
     console.log(">>> end postTriggerProcess");
 }
 
-
-
-//------------------------ execution area -----------------------------------------//
-applyGetElement()
-
-//------------------------ creating Youtools features action bar ----------------------//
 async function addYouloolsActionBar(videoRenderer) {
     if (videoRenderer.querySelector("#youtools-action-bar")) {
         console.log("youTools action bar already created");
@@ -145,9 +139,6 @@ async function addYouloolsActionBar(videoRenderer) {
     let playerOverlayRenderer = await videoRenderer.getElement("ytd-reel-player-overlay-renderer")
     playerOverlayRenderer.append(youtoolsActionBar)
 }
-
-
-//------------------------ applying the appropriate features ----------------------//
 
 function changesDetector(postTriggerProcessCB) {
     // detect initial URL
@@ -167,6 +158,9 @@ function changesDetector(postTriggerProcessCB) {
         postTriggerProcessCB(firstSubdir)
     })
 }
+
+//------------------------ execution area -----------------------------------------//
+applyGetElement()
 
 let shortScrolled = createShortScrolledEvent()
 changesDetector(postTriggerProcess)

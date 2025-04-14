@@ -79,7 +79,7 @@ export function createShortScrolledEvent() {
     }
 }
 // adds features buttons to the youtools action bar
-export async function addFeatureBtn(videoRenderer, btnElement, featureTitle) {
+export async function addFeatureBtnToActionBar(videoRenderer, btnElement, featureTitle) {
     console.log("btn Element : ", btnElement);
     let youtoolsActionBar = await videoRenderer.getElement("#youtools-action-bar")
     if (youtoolsActionBar.querySelector(`#${btnElement.id}`)) {
@@ -100,14 +100,13 @@ export async function addFeatureBtn(videoRenderer, btnElement, featureTitle) {
 
     youtoolsActionBar.append(btnWrapper)
 }
-export function removeFeatureBtn(videoRenderer, btnElementIdentifier) {
+export function removeFeatureBtnFromActionBar(videoRenderer, btnElementIdentifier) {
     console.log("removeFeatureBtn-------");
     console.log("the btn : ", videoRenderer.querySelector(btnElementIdentifier));
     console.log("the parent : ", videoRenderer.querySelector(btnElementIdentifier).parentElement);
     videoRenderer.querySelector(btnElementIdentifier).closest(".btn-wrapper").remove()
 }
-
-// --------------------------------------------
+// 
 export function currentHref() {
     return window.location.href
 }

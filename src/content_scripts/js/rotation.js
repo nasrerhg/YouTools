@@ -1,10 +1,9 @@
 import { getResourceURL } from "@modules/extension_general_lib.js"
-import { applyGetElement } from "@modules/dom_lib.js"
-import { addFeatureBtn, removeFeatureBtn, createShortScrolledEvent, initialShortVideo } from "@modules/youtools_lib.js"
+import { addFeatureBtnToActionBar, removeFeatureBtnFromActionBar, createShortScrolledEvent, initialShortVideo } from "@modules/youtools_lib.js"
 
-
-applyGetElement()
-
+// >>>>>>>
+// ---- creating elements
+// <<<<<<<
 
 function createRotationBtn(videoRenderer) {
     let rotationLayersWrapper = document.createElement("div")
@@ -34,10 +33,15 @@ function createRotationBtn(videoRenderer) {
     rotationLayersWrapper.append(showOptionsLayer)
     return rotationLayersWrapper
 }
-function addClearScreenBtnToActionBar(videoRenderer) {
+
+// >>>>>>>
+// ---- adding functionality
+// <<<<<<<
+
+function addRotationBtnToActionBar(videoRenderer) {
     let rotationBtn = createRotationBtn()
     addFunctionalityToRotationSubBtns(rotationBtn, videoRenderer)
-    addFeatureBtn(videoRenderer, rotationBtn, "rotation")
+    addFeatureBtnToActionBar(videoRenderer, rotationBtn, "rotation")
 }
 function addFunctionalityToRotationSubBtns(rotationBtn, videoRenderer) {
     let leftRotationBtn = rotationBtn.querySelector("#left-rotation")
@@ -127,27 +131,34 @@ function removeLandscape(videoRenderer) {
     videoRenderer.classList.remove("right-rotation")
     videoRenderer.classList.remove("landscape")
 }
-let shortScrolled = createShortScrolledEvent()
-export default {
-    enableRotation: async () => {
-        console.log("rotation :: script activated");
-        initialShortVideo((videoRenderer) => {
-            addClearScreenBtnToActionBar(videoRenderer)
-            onResizeContaineShortVideo(videoRenderer)
-        })
+// >>>>>>>
+// ---- Implementing feature
+// <<<<<<<
 
-        shortScrolled.start((videoRenderer) => {
-            addClearScreenBtnToActionBar(videoRenderer)
-            onResizeContaineShortVideo(videoRenderer)
-        })
+function implementRotationFeature(videoRenderer) {
+    addRotationBtnToActionBar(videoRenderer)
+    onResizeContaineShortVideo(videoRenderer)
 
-    },
-    disableRotation: async () => {
-        shortScrolled.end()
-        console.log("rotation :: script deactivated");
-        let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
-        removeLandscape(videoRenderer)
-        resizingShortVideoToPortrait()
-        removeFeatureBtn(videoRenderer, "#rotation-layers-wrapper")
-    }
 }
+let shortScrolled = createShortScrolledEvent()
+
+async function enableRotation() {
+    console.log("rotation :: script activated");
+    initialShortVideo((videoRenderer) => {
+        implementRotationFeature(videoRenderer)
+    })
+
+    shortScrolled.start((videoRenderer) => {
+        implementRotationFeature(videoRenderer)
+    })
+
+}
+async function disableRotation() {
+    shortScrolled.end()
+    console.log("rotation :: script deactivated");
+    let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
+    removeLandscape(videoRenderer)
+    resizingShortVideoToPortrait()
+    removeFeatureBtnFromActionBar(videoRenderer, "#rotation-layers-wrapper")
+}
+export default { enableRotation, disableRotation }

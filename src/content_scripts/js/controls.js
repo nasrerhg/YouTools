@@ -2,7 +2,7 @@ console.log("clear screen script on stand by...")
 
 import { getResourceURL } from "@modules/extension_general_lib.js"
 import { clicksManager } from "@modules/dom_lib.js"
-import { createShortScrolledEvent, initialShortVideo, addFeatureBtn, removeFeatureBtn } from "@modules/youtools_lib.js"
+import { createShortScrolledEvent, initialShortVideo } from "@modules/youtools_lib.js"
 
 let videoSkipForwardTimeAmount = 3
 let videoSkipBackwardTimeAmount = 3
@@ -20,7 +20,10 @@ async function addControlsLayerToVideoRenderer(videoRenderer, controlsLayer) {
     let container = await videoRenderer.getElement("#player-container")
     container.append(controlsLayer)
 }
-// ---- creating elements ---- //
+// >>>>>>>
+// ---- Creating elements
+// <<<<<<<
+
 function createControlsLayer() {
     let controlsLayer = document.createElement("div")
     controlsLayer.id = "controls-layer"
@@ -103,8 +106,10 @@ function createFastForward() {
     fastForwardContainer.append(fastForwardImgContainer)
     return fastForwardContainer
 }
+// >>>>>>>
+// ---- Adding functionalities
+// <<<<<<<
 
-// ---- adding functionalities ---- //
 function videoPausePlay(video) {
     if (video.paused) {
         video.play()
@@ -121,27 +126,6 @@ function videoPausePlayAnimation(video, controlsLayer) {
     } else {
         controlsLayer.classList.remove("pause")
         controlsLayer.classList.add("play")
-    }
-}
-// 
-function clickSideIdentifier(event, callback) {
-    let eventTarget = event.target
-    let eventTargetWidth = Number(getComputedStyle(eventTarget).width.replace("px", ""))
-    let eventTargetXCenter = eventTargetWidth / 2
-
-    // console.log("eventTarget : ", eventTarget);
-    // console.log("eventTargetWidth : ", eventTargetWidth);
-    // console.log("eventTargetXCenter : ", eventTargetXCenter);
-    // console.log("offsetX : ", event.offsetX);
-
-    if (event.offsetX > eventTargetXCenter) {
-        // console.log("right");
-
-        callback("rightSide")
-    }
-    if (event.offsetX < eventTargetXCenter) {
-        // console.log("left");
-        callback("leftSide")
     }
 }
 // 
@@ -214,6 +198,28 @@ function setVideoFastForwardAnimation(controlsLayer, videoPlaybackRate) {
         }
     }
 }
+// 
+function clickSideIdentifier(event, callback) {
+    let eventTarget = event.target
+    let eventTargetWidth = Number(getComputedStyle(eventTarget).width.replace("px", ""))
+    let eventTargetXCenter = eventTargetWidth / 2
+
+    // console.log("eventTarget : ", eventTarget);
+    // console.log("eventTargetWidth : ", eventTargetWidth);
+    // console.log("eventTargetXCenter : ", eventTargetXCenter);
+    // console.log("offsetX : ", event.offsetX);
+
+    if (event.offsetX > eventTargetXCenter) {
+        // console.log("right");
+
+        callback("rightSide")
+    }
+    if (event.offsetX < eventTargetXCenter) {
+        // console.log("left");
+        callback("leftSide")
+    }
+}
+// 
 async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
     let video = await videoRenderer.getElement("video")
     let controlsLayerEvents = clicksManager(controlsLayer)
@@ -262,7 +268,11 @@ async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
     }
 
 }
-function implementControlsVideoRenderer(videoRenderer) {
+// >>>>>>>
+// ---- Implementing feature
+// <<<<<<<
+
+function implementControlsOnVideoRenderer(videoRenderer) {
     console.log(">>>> controls implementation strats");
     // create controls layer & its elements (animations)
     let controlsLayer = createControlsLayer()
@@ -285,15 +295,13 @@ function implementControlsVideoRenderer(videoRenderer) {
 
 let shortScrolled = createShortScrolledEvent();
 
-
 function enableControls() {
     initialShortVideo((videoRenderer) => {
-        implementControlsVideoRenderer(videoRenderer)
+        implementControlsOnVideoRenderer(videoRenderer)
     })
     shortScrolled.start((videoRenderer) => {
-        implementControlsVideoRenderer(videoRenderer)
+        implementControlsOnVideoRenderer(videoRenderer)
     })
-
     console.log("clear screen script activated");
 }
 
@@ -301,7 +309,7 @@ async function disableControls() {
     shortScrolled.end()
     let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
     let controlsLayer = videoRenderer.querySelector("#controls-layer")
-    controlsLayer.remove()
+    controlsLayer?.remove()
     console.log("controls feature disabled")
 }
 
