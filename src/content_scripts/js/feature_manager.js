@@ -113,12 +113,13 @@ async function postTriggerProcess(firstSubdir) {
     }
     console.log(">>> start postTriggerProcess");
     console.log(">>> addYouloolsActionBar");
-
-    let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
-    addYouloolsActionBar(videoRenderer)
-    shortScrolled.start((videoRenderer) => {
+    if (firstSubdir === "shorts") {
+        let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
         addYouloolsActionBar(videoRenderer)
-    })
+        shortScrolled.start((videoRenderer) => {
+            addYouloolsActionBar(videoRenderer)
+        })
+    }
     let featuresClassification = await featureClassification(firstSubdir)
     console.log("[ feature manager module ] => implementing the classification");
     console.log("featureClassification : ", featuresClassification);
