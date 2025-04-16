@@ -22,32 +22,23 @@ function createLoopToggleBtn() {
 // >>>>>>>
 // ---- Add functionality
 // <<<<<<<
-function autoReplaySequence(video) {
-    let adContainer = document.querySelector(".video-ads.ytp-ad-module")
-    if (adContainer && getComputedStyle(adContainer).display !== 'none') {
-        console.log("advertisement detected !")
-        return
-    }
-    console.log("pause : ", video.currentTime);
-    console.log(video.duration);
-    if ((video.duration - 0.2) <= video.currentTime) {
-        video.currentTime = 0
-        video.play()
-    }
+
+function replayVideo(video) {
+    video.pause()
+    video.currentTime = 0
+    video.play()
 }
 function addFuncionalityToLoopBtn(loopToggleBtn) {
     loopToggleBtn.addEventListener("click", async () => {
         let video = await document.getElement("video")
-        if (!video.onpause) {
-            if ((video.duration - 0.2) <= video.currentTime) {
-                video.currentTime = 0
+        if (!video.loop) {
+            if (video.paused) {
+                replayVideo(video)
             }
-            video.onpause = () => {
-                autoReplaySequence(video)
-            }
+            video.loop = true
             loopToggleBtn.classList.add("loop-active")
         } else {
-            video.onpause = undefined
+            video.loop = false
             loopToggleBtn.classList.remove("loop-active")
         }
     })
@@ -59,11 +50,10 @@ async function enableLoop() {
     addFuncionalityToLoopBtn(loopToggleBtn)
     let videoPlayerRightControls = await document.getElement(".ytp-right-controls")
     videoPlayerRightControls.prepend(loopToggleBtn)
-
 }
 async function disableLoop() {
     document.querySelector("#loop-btn").remove()
     let video = await document.getElement("video")
-    video.onpause = undefined
+    video.loop = false
 }
 export default { enableLoop, disableLoop }
