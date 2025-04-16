@@ -18,7 +18,9 @@ function createLoopToggleBtn() {
     loopToggleBtn.append(disabledLoopImg)
     return loopToggleBtn
 }
-
+function isVideoWhithinCompletionRange(video) {
+    return ((video.duration - 0.2) <= video.currentTime)
+}
 // >>>>>>>
 // ---- Add functionality
 // <<<<<<<
@@ -28,11 +30,11 @@ function replayVideo(video) {
     video.currentTime = 0
     video.play()
 }
-function addFuncionalityToLoopBtn(loopToggleBtn) {
+async function addFuncionalityToLoopBtn(loopToggleBtn) {
     loopToggleBtn.addEventListener("click", async () => {
         let video = await document.getElement("video")
         if (!video.loop) {
-            if (video.paused) {
+            if (isVideoWhithinCompletionRange(video) && video.paused) {
                 replayVideo(video)
             }
             video.loop = true
@@ -42,6 +44,15 @@ function addFuncionalityToLoopBtn(loopToggleBtn) {
             loopToggleBtn.classList.remove("loop-active")
         }
     })
+    let video = await document.getElement("video")
+    video.onloadedmetadata = () => {
+        console.log("updating btn");
+        if (video.loop) {
+            loopToggleBtn.classList.add("loop-active")
+        } else {
+            loopToggleBtn.classList.remove("loop-active")
+        }
+    }
 }
 
 async function enableLoop() {
