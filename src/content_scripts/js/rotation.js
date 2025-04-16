@@ -72,21 +72,16 @@ async function containRotatedVideo(video, container) {
     let containerRatio = containerWidth / containerHeight
 
     let root = document.documentElement
-    console.log({ rotatedVideoRatio, containerRatio });
 
     if (rotatedVideoRatio > containerRatio) {
-        console.log("adjusting to container height");
         root.style.setProperty("--contained-video-width", `${containerHeight}px`)
     }
     if (rotatedVideoRatio < containerRatio) {
-        console.log("adjusting to container width");
         root.style.setProperty("--contained-video-width", `${containerHeight}px`)
         root.style.setProperty("--contained-video-height", `auto`)
     }
 }
 async function containRotatedShortVideo(videoRenderer) {
-    console.log(videoRenderer);
-
     let container = await videoRenderer.getElement(".player-wrapper")
     let video = await videoRenderer.getElement("video")
     containRotatedVideo(video, container)
@@ -94,7 +89,6 @@ async function containRotatedShortVideo(videoRenderer) {
 
 function onResizeContainRotatedVideo(video, container) {
     window.addEventListener("resize", () => {
-        console.log("resizing...");
         containRotatedVideo(video, container)
     })
 }
@@ -143,7 +137,6 @@ function implementRotationFeature(videoRenderer) {
 let shortScrolled = createShortScrolledEvent()
 
 async function enableRotation() {
-    console.log("rotation :: script activated");
     initialShortVideo((videoRenderer) => {
         implementRotationFeature(videoRenderer)
     })
@@ -155,7 +148,6 @@ async function enableRotation() {
 }
 async function disableRotation() {
     shortScrolled.end()
-    console.log("rotation :: script deactivated");
     let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
     removeLandscape(videoRenderer)
     resizingShortVideoToPortrait()

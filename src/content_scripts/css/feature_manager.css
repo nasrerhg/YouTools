@@ -56,3 +56,7 @@
     text-transform: capitalize;
     width: auto;
 }
+/* ============= just a quick personal fix unrelated to this extentions code ============ */
+.autocomplete-suggestions {
+    display: none;
+}

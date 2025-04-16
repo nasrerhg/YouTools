@@ -8,11 +8,11 @@ export const featureManager = {
         for (const featureName in featuresFuncs) {
             // check existence of the funcs
             if (!featuresFuncs[featureName][`enable${firstLetterUpperCase(featureName)}`]) {
-                console.log(`${featureName}'s enable function is not available the functions object from the module !`);
+                console.debug(`[Registery]\n ${featureName}'s enable function is not available the functions object from the module !`);
                 continue
             }
             if (!featuresFuncs[featureName][`disable${firstLetterUpperCase(featureName)}`]) {
-                console.log(`${featureName}'s disable function is not available the functions object from the module !`);
+                console.debug(`[Registery]\n ${featureName}'s disable function is not available the functions object from the module !`);
                 continue
             }
             // add it to the regitery
@@ -21,11 +21,11 @@ export const featureManager = {
                 funcs: { ...featuresFuncs[featureName] }
             }
         }
-        console.log("registery : ", this.registery)
+        console.debug("[Registery]\n features had been added : \n", this.registery)
     },
     getState: function (featureName) {
         if (!this.registery[featureName]?.featureState) {
-            console.log(`feature ${featureName} doesn't exist `);
+            console.debug(`[Registery]\n feature ${featureName} doesn't exist `);
         }
         return this.registery[featureName]?.featureState
     },
@@ -39,7 +39,7 @@ export const featureManager = {
         }
         const changeRegisteryStateAndExecute = (desiredState) => {
             if (this.registery[featureName].featureState === desiredState) {
-                console.log(`feature ${featureName} state is already ${desiredState}`)
+                console.debug(`[Registery]\n feature ${featureName} state is already ${desiredState}`)
                 return
             }
             // verblizing the desired state ( remove the simple past "d" )
@@ -47,7 +47,7 @@ export const featureManager = {
 
             this.registery[featureName].funcs[`${verblizedDesiredState}${firstLetterUpperCase(featureName)}`]()
             this.registery[featureName].featureState = desiredState
-            console.log(`feature ${featureName} state is ${desiredState}`)
+            console.debug(`[Registery]\n feature ${featureName} state is ${desiredState}`)
         }
         return {
             enable: () => {
@@ -80,10 +80,9 @@ export function createShortScrolledEvent() {
 }
 // adds features buttons to the youtools action bar
 export async function addFeatureBtnToActionBar(videoRenderer, btnElement, featureTitle) {
-    console.log("btn Element : ", btnElement);
     let youtoolsActionBar = await videoRenderer.getElement("#youtools-action-bar")
     if (youtoolsActionBar.querySelector(`#${btnElement.id}`)) {
-        console.log("btn already added");
+        console.debug("btn already added");
         return
     }
     let btnWrapper = document.createElement("div")
@@ -101,9 +100,6 @@ export async function addFeatureBtnToActionBar(videoRenderer, btnElement, featur
     youtoolsActionBar.append(btnWrapper)
 }
 export function removeFeatureBtnFromActionBar(videoRenderer, btnElementIdentifier) {
-    console.log("removeFeatureBtn-------");
-    console.log("the btn : ", videoRenderer.querySelector(btnElementIdentifier));
-    console.log("the parent : ", videoRenderer.querySelector(btnElementIdentifier).parentElement);
     videoRenderer.querySelector(btnElementIdentifier).closest(".btn-wrapper").remove()
 }
 // 
@@ -136,7 +132,7 @@ export function firstSubDirMutation(callback) {
 export async function initialShortVideo(callback) {
     // detects any short videos right after the full load of the page
     let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
-    console.log("new short video page detected (full load)");
+    console.debug("[initial short Video Detector ] \n new short video page detected (full load)");
     callback(videoRenderer)
     // detects any short videos after a short videos page mutation
     firstSubDirMutation(async (firstSubdir) => {
@@ -144,7 +140,7 @@ export async function initialShortVideo(callback) {
             return
         }
         let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
-        console.log("new short video page detected (mutation)");
+        console.debug("[initial short Video Detector ] \n new short video page detected (mutation)");
         callback(videoRenderer)
     })
 }

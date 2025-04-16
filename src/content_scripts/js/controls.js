@@ -1,5 +1,3 @@
-console.log("clear screen script on stand by...")
-
 import { getResourceURL } from "@modules/extension_general_lib.js"
 import { clicksManager } from "@modules/dom_lib.js"
 import { createShortScrolledEvent, initialShortVideo } from "@modules/youtools_lib.js"
@@ -113,10 +111,8 @@ function createFastForward() {
 function videoPausePlay(video) {
     if (video.paused) {
         video.play()
-        // console.log("play")
     } else {
         video.pause()
-        // console.log("pause")
     }
 }
 function videoPausePlayAnimation(video, controlsLayer) {
@@ -204,18 +200,10 @@ function clickSideIdentifier(event, callback) {
     let eventTargetWidth = Number(getComputedStyle(eventTarget).width.replace("px", ""))
     let eventTargetXCenter = eventTargetWidth / 2
 
-    // console.log("eventTarget : ", eventTarget);
-    // console.log("eventTargetWidth : ", eventTargetWidth);
-    // console.log("eventTargetXCenter : ", eventTargetXCenter);
-    // console.log("offsetX : ", event.offsetX);
-
     if (event.offsetX > eventTargetXCenter) {
-        // console.log("right");
-
         callback("rightSide")
     }
     if (event.offsetX < eventTargetXCenter) {
-        // console.log("left");
         callback("leftSide")
     }
 }
@@ -229,7 +217,6 @@ async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
     })
     controlsLayerEvents.onDoubleClick((event) => {
         clickSideIdentifier(event, (side) => {
-            console.log("side : " + side);
             if (side === "leftSide") {
                 videoSkipBackward(video, videoSkipBackwardTimeAmount)
                 videoSkipBackwordAnimation(controlsLayer, videoSkipBackwardTimeAmount)
@@ -245,12 +232,10 @@ async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
     let videoFastForwardAnimation = setVideoFastForwardAnimation(controlsLayer, videoPlaybackRate)
 
     controlsLayerEvents.onLongMouseDownStart((event) => {
-        console.log("long click started");
         videoFastForward.start()
         videoFastForwardAnimation.start()
     })
     controlsLayerEvents.onLongMouseDownEnd((event) => {
-        console.log("long click ended");
         videoFastForward.end()
         videoFastForwardAnimation.end()
     })
@@ -273,7 +258,6 @@ async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
 // <<<<<<<
 
 function implementControlsOnVideoRenderer(videoRenderer) {
-    console.log(">>>> controls implementation strats");
     // create controls layer & its elements (animations)
     let controlsLayer = createControlsLayer()
     let playPauseContainer = createPlayPause()
@@ -287,10 +271,8 @@ function implementControlsOnVideoRenderer(videoRenderer) {
     appendToControlsLayer(controlsLayer, fastForwardContainer)
     // add functionality to controlsLayer
     addFuncionalityToControlsLayer(videoRenderer, controlsLayer)
-    console.log(">> controlsLayer created ");
     // add controls layer to the video renderer
     addControlsLayerToVideoRenderer(videoRenderer, controlsLayer)
-    console.log(">>>> controls implementation ends");
 }
 
 let shortScrolled = createShortScrolledEvent();
@@ -302,7 +284,6 @@ function enableControls() {
     shortScrolled.start((videoRenderer) => {
         implementControlsOnVideoRenderer(videoRenderer)
     })
-    console.log("clear screen script activated");
 }
 
 async function disableControls() {
@@ -310,7 +291,6 @@ async function disableControls() {
     let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
     let controlsLayer = videoRenderer.querySelector("#controls-layer")
     controlsLayer?.remove()
-    console.log("controls feature disabled")
 }
 
 export default { enableControls, disableControls }

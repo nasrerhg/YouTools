@@ -1,8 +1,3 @@
-// issue 01
-// - it wont detect the first short video if the short feed page changed from one feed to another.
-//   since neither the subdirMutation nor initialUrl has been triggered 
-console.log("clear screen script on stand by...")
-
 import { getResourceURL } from "@modules/extension_general_lib.js"
 import { createShortScrolledEvent, initialShortVideo, addFeatureBtnToActionBar, removeFeatureBtnFromActionBar } from "@modules/youtools_lib.js"
 
@@ -61,8 +56,6 @@ function enableClearScreen() {
     shortScrolled.start((videoRenderer) => {
         implementClearScreenOnVideoRenderer(videoRenderer)
     })
-
-    console.log("clear screen script activated");
 }
 
 function disableClearScreen() {
@@ -71,7 +64,6 @@ function disableClearScreen() {
         removeFeatureBtnFromActionBar(videoRenderer, "#info-toggle-btn")
         showMetapanel(videoRenderer)
     })
-    console.log("clear screen script deactivated");
 }
 
 export default { enableClearScreen, disableClearScreen }

@@ -17,13 +17,10 @@ export function applyGetElement() {
                 }
                 // check for the element after each mutation in the document
                 let mutationObserver = new MutationObserver((mutations) => {
-                    // console.log("looking for " + elementIdentification);
-
                     if (previousElement.querySelector(elementIdentification)) {
                         callback?.(previousElement.querySelector(elementIdentification))
                         resolve(previousElement.querySelector(elementIdentification))
                         mutationObserver.disconnect()
-                        // console.log("found " + elementIdentification);
 
                     }
                 })
@@ -31,6 +28,7 @@ export function applyGetElement() {
             })
 
         }
+    console.log("getElement Method is applied to the Node object prototype \n  exaclty like querySelector but with it keeps looking until it finds the element")
 }
 export function clicksManager(element) {
     let waitingForConsecutiveClick = false
@@ -51,7 +49,6 @@ export function clicksManager(element) {
             clearTimeout(singleClickTimeout)
             waitingForConsecutiveClick = false
             justDoubleClicked = true
-            // console.log("double click !!");
             callback?.(event)
         }
     }
@@ -78,7 +75,6 @@ export function clicksManager(element) {
             setTimeout(() => {
                 longMouseDownStarted = true
                 justLongClicked = true
-                // console.log("long press started");
                 callback?.(event)
             }, 500);
     }

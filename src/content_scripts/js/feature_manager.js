@@ -1,4 +1,4 @@
-console.log("scripts manager state : active");
+console.debug("scripts manager state : active");
 
 import { featureManager, createShortScrolledEvent, currentHref, firstSubdirExtractor, firstSubDirMutation } from "@modules/youtools_lib"
 import { applyGetElement } from "@modules/dom_lib.js"
@@ -10,7 +10,6 @@ import rotation from "@content_scripts/js/rotation"
 import loop from "@content_scripts/js/loop"
 import controls from "@content_scripts/js/controls"
 // add the imported features functions to feature manager registery
-console.log("[ feature manager module ] => adding features functions to the registery...");
 featureManager.addfeatures({ rotation, clearScreen, controls, loop })
 
 // implement the classification (userConfig)
@@ -107,12 +106,12 @@ async function postTriggerProcess(firstSubdir) {
     shortScrolled.end()
     // check if the subdir is compatible with any feature
     if (firstSubdir !== "shorts" && firstSubdir !== "watch") {
-        console.log("current page is not compatible with any features");
+        console.debug("[ Post trigger process ]\n current page is not compatible with any features !!!");
         disableAllfeatures()
         return
     }
-    console.log(">>> start postTriggerProcess");
-    console.log(">>> addYouloolsActionBar");
+    console.debug("[ Post trigger process ]\n start postTriggerProcess");
+    console.debug("[ Post trigger process ]\n addYouloolsActionBar");
     if (firstSubdir === "shorts") {
         let videoRenderer = await document.getElement("ytd-reel-video-renderer[is-active]")
         addYouloolsActionBar(videoRenderer)
@@ -121,16 +120,15 @@ async function postTriggerProcess(firstSubdir) {
         })
     }
     let featuresClassification = await featureClassification(firstSubdir)
-    console.log("[ feature manager module ] => implementing the classification");
-    console.log("featureClassification : ", featuresClassification);
-
+    console.debug("[ Post trigger process ]\n featureClassification : ", featuresClassification);
+    console.debug("[ Post trigger process ]\n implementing the classification");
     implementClassification(featuresClassification)
-    console.log(">>> end postTriggerProcess");
+    console.debug("[ Post trigger process ]\n end postTriggerProcess");
 }
 
 async function addYouloolsActionBar(videoRenderer) {
     if (videoRenderer.querySelector("#youtools-action-bar")) {
-        console.log("youTools action bar already created");
+        console.debug("youTools action bar already created");
         return
     }
     // creating the action bar element
@@ -144,17 +142,17 @@ async function addYouloolsActionBar(videoRenderer) {
 function changesDetector(postTriggerProcessCB) {
     // detect initial URL
     initialFirstSubdir(async (firstSubdir) => {
-        console.log(">>> initialFirstSubdir");
+        console.debug("[Change detector]\n Initial URL ( first URL right after a full load)");
         postTriggerProcessCB(firstSubdir)
     })
     // detect first subdirectory mutations
     firstSubDirMutation(async (firstSubdir) => {
-        console.log(">>> firstSubDirMutation");
+        console.debug("[Change detector]\n First sub-directory mutation");
         postTriggerProcessCB(firstSubdir)
     })
     // detect user config changes
     userConfigChanges(async () => {
-        console.log(">>> userConfig change");
+        console.debug("[Change detector]\n User vonfig change");
         let firstSubdir = firstSubdirExtractor(currentHref())
         postTriggerProcessCB(firstSubdir)
     })
