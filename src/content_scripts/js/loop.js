@@ -26,6 +26,12 @@ function isVideoWhithinCompletionRange(video) {
 // <<<<<<<
 
 function replayVideo(video) {
+    let replayBtn = document.querySelector("#full-bleed-container .ytp-play-button[data-title-no-tooltip]")
+    if (replayBtn) {
+        video.currentTime = 0
+        replayBtn.click()
+        return
+    }
     video.pause()
     video.currentTime = 0
     video.play()
@@ -34,7 +40,7 @@ async function addFuncionalityToLoopBtn(loopToggleBtn) {
     loopToggleBtn.addEventListener("click", async () => {
         let video = await document.getElement("#full-bleed-container video")
         if (!video.loop) {
-            if (isVideoWhithinCompletionRange(video) && video.paused) {
+            if (isNaN(video.duration) || (isVideoWhithinCompletionRange(video) && video.paused)) {
                 replayVideo(video)
             }
             video.loop = true
