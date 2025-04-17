@@ -44,7 +44,7 @@ async function addFuncionalityToLoopBtn(loopToggleBtn) {
             loopToggleBtn.classList.remove("loop-active")
         }
     })
-    let video = await document.getElement("video")
+    let video = await document.getElement("#full-bleed-container video")
     video.onloadedmetadata = () => {
         if (video.loop) {
             loopToggleBtn.classList.add("loop-active")

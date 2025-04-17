@@ -62,13 +62,13 @@ function getDisabledFeatures(enabledFeatures, userConfig) {
 
     return Object.keys(allFeaturesNames)
 }
-async function getLocalStorage(namespaces) {
-    return await chrome.storage.local.get(namespaces)
+async function getSyncStorage(namespaces) {
+    return await chrome.storage.sync.get(namespaces)
 }
 // class features into groups depending on their state ( to be enabled or disabled)
 async function featureClassification(firstSubdir) {
     // get userConfig
-    let response = await getLocalStorage("userConfig")
+    let response = await getSyncStorage("userConfig")
     let userConfig = response.userConfig
     // classify features
     let enableFeatures = getEnabledFeatures(firstSubdir, userConfig)
@@ -80,7 +80,7 @@ async function featureClassification(firstSubdir) {
     }
 }
 async function disableAllfeatures() {
-    let response = await getLocalStorage("userConfig")
+    let response = await getSyncStorage("userConfig")
     let userConfig = response.userConfig
     let featuersOnlyList = { ...userConfig.shorts, ...userConfig.videos }
     let featuresNames = Object.keys(featuersOnlyList)
@@ -152,7 +152,7 @@ function changesDetector(postTriggerProcessCB) {
     })
     // detect user config changes
     userConfigChanges(async () => {
-        console.debug("[Change detector]\n User vonfig change");
+        console.debug("[Change detector]\n User config change");
         let firstSubdir = firstSubdirExtractor(currentHref())
         postTriggerProcessCB(firstSubdir)
     })

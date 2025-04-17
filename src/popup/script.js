@@ -10,13 +10,13 @@ let userConfigSchema = {
     }
 }
 // check for stored userconfig if not create them
-chrome.storage.local.get("userConfig", (response) => {
+chrome.storage.sync.get("userConfig", (response) => {
     let userConfig = response.userConfig
     // check for the inexistence of stored userConfig
     if (userConfig === undefined) {
         // create userConfig
         console.log("create user configuration...");
-        chrome.storage.local.set({ "userConfig": userConfigSchema })
+        chrome.storage.sync.set({ "userConfig": userConfigSchema })
     }
     // apply the userConfig on popup
     // putting all the features on one level for easier reading
@@ -36,7 +36,7 @@ chrome.storage.local.get("userConfig", (response) => {
 
             userConfig[featureGroup][featureName] = featureState
             let modifiedUserConfig = userConfig
-            chrome.storage.local.set({ "userConfig": modifiedUserConfig })
+            chrome.storage.sync.set({ "userConfig": modifiedUserConfig })
         }
     });
 
