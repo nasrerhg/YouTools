@@ -1,22 +1,25 @@
-// user config blueprint
-let userConfigSchema = {
-    shorts: {
-        clearScreen: false,
-        rotation: false,
-        controls: false
-    },
-    videos: {
-        loop: false
-    }
+// get the user config schema
+async function getUserConfigSchema() {
+    let userConfigSchema = await fetch("../schemas/user_config_schema.json")
+    userConfigSchema = await userConfigSchema.json()
+    return userConfigSchema
 }
+async function createUserConfig() {
+    let userConfigSchema = await getUserConfigSchema()
+    console.log("create user configuration...");
+    await chrome.storage.sync.set({ "userConfig": userConfigSchema })
+}
+getUserConfigSchema()
 // check for stored userconfig if not create them
-chrome.storage.sync.get("userConfig", (response) => {
+async function userConfigManager() {
+    let response = await chrome.storage.sync.get(["userConfig"])
     let userConfig = response.userConfig
     // check for the inexistence of stored userConfig
     if (userConfig === undefined) {
         // create userConfig
         console.log("create user configuration...");
-        chrome.storage.sync.set({ "userConfig": userConfigSchema })
+        await createUserConfig()
+        userConfig = await getUserConfigSchema()
     }
     // apply the userConfig on popup
     // putting all the features on one level for easier reading
@@ -39,5 +42,5 @@ chrome.storage.sync.get("userConfig", (response) => {
             chrome.storage.sync.set({ "userConfig": modifiedUserConfig })
         }
     });
-
-})
+}
+userConfigManager()

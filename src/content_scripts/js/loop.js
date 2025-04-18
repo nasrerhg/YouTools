@@ -36,9 +36,14 @@ function replayVideo(video) {
     video.currentTime = 0
     video.play()
 }
+async function getCurrentPlayingVideo() {
+    let currentPlayingVideo = await document.getElement("video[src]")
+    return currentPlayingVideo
+}
 async function addFuncionalityToLoopBtn(loopToggleBtn) {
     loopToggleBtn.addEventListener("click", async () => {
-        let video = await document.getElement("#full-bleed-container video")
+        // let video = await document.getElement("#full-bleed-container video")
+        let video = await getCurrentPlayingVideo()
         if (!video.loop) {
             if (isNaN(video.duration) || (isVideoWhithinCompletionRange(video) && video.paused)) {
                 replayVideo(video)
@@ -50,7 +55,8 @@ async function addFuncionalityToLoopBtn(loopToggleBtn) {
             loopToggleBtn.classList.remove("loop-active")
         }
     })
-    let video = await document.getElement("#full-bleed-container video")
+    // let video = await document.getElement("#full-bleed-container video")
+    let video = await getCurrentPlayingVideo()
     video.onloadedmetadata = () => {
         if (video.loop) {
             loopToggleBtn.classList.add("loop-active")

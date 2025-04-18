@@ -1,0 +1,10 @@
+{
+    "shorts": {
+        "clearScreen": true,
+        "rotation": true,
+        "controls": true
+    },
+    "videos": {
+        "loop": true
+    }
+}

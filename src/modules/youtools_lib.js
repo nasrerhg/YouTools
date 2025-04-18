@@ -100,7 +100,7 @@ export async function addFeatureBtnToActionBar(videoRenderer, btnElement, featur
     youtoolsActionBar.append(btnWrapper)
 }
 export function removeFeatureBtnFromActionBar(videoRenderer, btnElementIdentifier) {
-    videoRenderer.querySelector(btnElementIdentifier).closest(".btn-wrapper").remove()
+    videoRenderer.querySelector(btnElementIdentifier)?.closest(".btn-wrapper").remove()
 }
 // 
 export function currentHref() {

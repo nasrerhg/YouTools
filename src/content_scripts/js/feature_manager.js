@@ -2,6 +2,7 @@ console.debug("scripts manager state : active");
 
 import { featureManager, createShortScrolledEvent, currentHref, firstSubdirExtractor, firstSubDirMutation } from "@modules/youtools_lib"
 import { applyGetElement } from "@modules/dom_lib.js"
+import { getResourceURL } from "@modules/extension_general_lib";
 
 // ---------------------- importing features -----------------------//
 // features modules 
@@ -12,6 +13,16 @@ import controls from "@content_scripts/js/controls"
 // add the imported features functions to feature manager registery
 featureManager.addfeatures({ rotation, clearScreen, controls, loop })
 
+async function getUserConfigSchema() {
+    let userConfigSchemaExtensionURL = await getResourceURL("schemas/user_config_schema.json")
+    let userConfigSchema = await fetch(userConfigSchemaExtensionURL)
+    userConfigSchema = await userConfigSchema.json()
+    return userConfigSchema
+}
+async function createUserConfig() {
+    let userConfigSchema = await getUserConfigSchema()
+    await chrome.storage.sync.set({ "userConfig": userConfigSchema })
+}
 // implement the classification (userConfig)
 function implementClassification(featuresClassification) {
     for (const featureName of featuresClassification.disable) {
@@ -70,6 +81,13 @@ async function featureClassification(firstSubdir) {
     // get userConfig
     let response = await getSyncStorage("userConfig")
     let userConfig = response.userConfig
+    // check for the inexistence of stored userConfig
+    if (userConfig === undefined) {
+        console.debug("userConfig is undefined");
+        console.debug("create user configuration...");
+        await createUserConfig()
+        userConfig = await getUserConfigSchema()
+    }
     // classify features
     let enableFeatures = getEnabledFeatures(firstSubdir, userConfig)
     let disableFeatures = getDisabledFeatures(enableFeatures, userConfig)

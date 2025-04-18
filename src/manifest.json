@@ -42,7 +42,8 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "assets/*"
+                "assets/*",
+                "schemas/*"
             ],
             "matches": [
                 "https://www.youtube.com/*"
