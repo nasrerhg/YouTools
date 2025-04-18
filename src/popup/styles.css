@@ -142,3 +142,10 @@ main section .section-content ul li {
     margin-bottom: .5em;
     border-radius: .2em;
 }
+footer a {
+    text-decoration: none;
+    color: var(--bg-clr-4);
+    font-size: .8em;
+    text-align: center;
+    display: block;
+}
