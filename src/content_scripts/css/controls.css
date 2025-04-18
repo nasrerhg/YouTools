@@ -6,6 +6,7 @@ ytd-reel-video-renderer #controls-layer {
     z-index: 1;
     left: 0;
     top: 0;
+    user-select: none;
 }
 
 ytd-reel-video-renderer #controls-layer>* {
