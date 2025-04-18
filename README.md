@@ -27,7 +27,7 @@ Hide or show video overlays like the channel icon, title, buttons, etc.
 - 📍 **Where**: Button appears on the **left side** of the Short.
 - ✅ **How to use**:  
   Click the Clear-Screen button to hide overlays. Click again to bring them back.
-![alt text](readme-images/clear-screen.jpg)
+![clear-screen](https://github.com/user-attachments/assets/15e03b56-0194-4e78-b49d-6545a54707db)
 #### 2. **Rotation**  
 Rotate landscape Shorts for easier viewing on devices like desktops or laptops.
 
@@ -37,7 +37,7 @@ Rotate landscape Shorts for easier viewing on devices like desktops or laptops.
   2. A list of rotation directions will appear (e.g., 90°, 180°, etc).  
   3. Click your desired rotation.  
   4. Click the button again to reset to default (portrait) mode.
-![alt text](readme-images/rotation.png)
+![rotation](https://github.com/user-attachments/assets/91014c24-407e-4dbe-a1a6-82fc622d53b5)
 
 #### 3. **Controls**  
 Adds gesture-based playback control to Shorts.
@@ -47,7 +47,7 @@ Adds gesture-based playback control to Shorts.
   - **Skip backward**: Double-click the left half.
   - **Fast-forward**: Long-press anywhere on the video.
 - ⚠️ This feature works automatically — no button will appear on the video.
-![alt text](readme-images/controls.jpg)
+![controls](https://github.com/user-attachments/assets/950d6716-eaf3-4502-95b1-31d24ba7bdbd)
   
 
 ---
@@ -61,7 +61,7 @@ Auto-replays standalone videos after they finish playing.
 - ✅ **How to use**:
   1. Enable the loop feature from the extension popup.
   2. When watching a video, click the loop button to toggle auto-replay on or off.
-![alt text](readme-images/loop.jpg)
+![loop](https://github.com/user-attachments/assets/a03c1e3b-6c20-44db-a531-9ba3f411eff1)
 ---
 
 ## Installation
@@ -78,6 +78,15 @@ Auto-replays standalone videos after they finish playing.
 3. Open Chrome and go to `chrome://extensions/`.
 4. Enable **Developer Mode** (top left).
 5. Click **"Load unpacked"** and select the extension folder path/Youtools/dist.
+6. The extension should now be active and ready to use.
+   
+### Option 2: Install via Download (for Regular Users)
+
+1. Go to the [YouTools Release Page](https://github.com/nasrerhg/YouTools/releases) and download the latest `.zip` file under **Assets**.
+2. Extract the `.zip` file to a folder on your computer.
+3. Open Chrome and go to `chrome://extensions/`.
+4. Enable **Developer Mode** (top left).
+5. Click **"Load unpacked"** and select the folder where you extracted the `.zip` file.
 6. The extension should now be active and ready to use.
 
 ## 🪪 License
