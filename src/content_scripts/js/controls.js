@@ -258,6 +258,10 @@ async function addFuncionalityToControlsLayer(videoRenderer, controlsLayer) {
 // <<<<<<<
 
 function implementControlsOnVideoRenderer(videoRenderer) {
+    if (videoRenderer.querySelector("#controls-layer")) {
+        console.debug("[ Controls ] \n controls layer already added");
+        return
+    }
     // create controls layer & its elements (animations)
     let controlsLayer = createControlsLayer()
     let playPauseContainer = createPlayPause()

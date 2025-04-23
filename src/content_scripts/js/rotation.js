@@ -130,6 +130,8 @@ function removeLandscape(videoRenderer) {
 // <<<<<<<
 
 function implementRotationFeature(videoRenderer) {
+    removeLandscape(videoRenderer)
+    resizingShortVideoToPortrait()
     addRotationBtnToActionBar(videoRenderer)
     onResizeContaineShortVideo(videoRenderer)
 

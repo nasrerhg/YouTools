@@ -66,12 +66,22 @@ export function createShortScrolledEvent() {
         start: (callback) => {
             mutationObserver = new MutationObserver((mutations) => {
                 mutations.forEach(mutation => {
-                    if (mutation.target.nodeName === "YTD-REEL-VIDEO-RENDERER" && mutation.target.getAttribute("is-active") !== null) {
+                    if (mutation.type === "attributes") {
+                        console.log("mutation", mutation);
+                    }
+                    if (mutation.type === "attributes" && mutation.target.nodeName === "YTD-REEL-VIDEO-RENDERER" && mutation.attributeName === "is-active") {
                         callback(mutation.target)
+                        console.debug("[Short Scrolled Detector ] \n attribute");
+                        return
+                    }
+                    if (mutation.type === "childList" && Array.from(mutation.addedNodes).includes(document.querySelector("ytd-reel-video-renderer[is-active]"))) {
+                        callback(document.querySelector("ytd-reel-video-renderer[is-active]"))
+                        console.debug("[Short Scrolled Detector ] \n childList");
+                        return
                     }
                 });
             })
-            mutationObserver.observe(document, { subtree: true, attributes: true, attributeFilter: ["is-active"] })
+            mutationObserver.observe(document, { subtree: true, attributes: true, attributeFilter: ["is-active"], childList: true })
         },
         end: () => {
             mutationObserver?.disconnect()
